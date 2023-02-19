@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.text.Font?>
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller = "org.openjfx.PrimaryController" fx:id = "screenPane">
+   <right>
+      <GridPane fx:id="addPane" prefHeight="400.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="398.0" prefWidth="591.0" spacing="10.0">
+               <children>
+                  <Label text="Song">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="addSongField" promptText="Song">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="Artist">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </Label>
+                  <TextField fx:id="addArtistField" promptText="Artist">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="Album">
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="addAlbumField" promptText="Album">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="Year">
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="addYearField" promptText="Year">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </TextField>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="buttonConfirmAdd" defaultButton="true" mnemonicParsing="false" text="Confirm" onAction = "#buttonListener" />
+                        <Button fx:id="buttonCancelAdd" cancelButton="true" mnemonicParsing="false" text="Cancel" onAction = "#buttonListener" />
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+         </children>
+      </GridPane>
+      <GridPane fx:id="editPane" layoutX="300.0" prefHeight="400.0" prefWidth="300.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="398.0" prefWidth="591.0" spacing="10.0">
+               <children>
+                  <Label text="Song" />
+                  <TextField fx:id="editSongField" promptText="Song" />
+                  <Label text="Artist">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </Label>
+                  <TextField fx:id="editArtistField" promptText="Artist" />
+                  <Label text="Album">
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </Label>
+                  <TextField fx:id="editAlbumField" promptText="Album" />
+                  <Label text="Year">
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </Label>
+                  <TextField fx:id="editYearField" promptText="Year" />
+                  <Button fx:id="buttonUpdate" defaultButton="true" mnemonicParsing="false" text="Update" textAlignment="CENTER" onAction = "#buttonListener">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="buttonCancelEdit" cancelButton="true" mnemonicParsing="false" text="Cancel" onAction = "#buttonListener">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+         </children>
+      </GridPane>
+      <GridPane fx:id="mainPane" layoutX="300.0" prefHeight="400.0" prefWidth="300.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <VBox alignment="TOP_CENTER" spacing="10.0">
+               <children>
+                  <Label fx:id="titleLabel" text="Song Title" textAlignment="CENTER" textOverrun="LEADING_ELLIPSIS" wrapText="true">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="artistLabel" text="Song Artist" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="albumLabel" text="Song Album" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="yearLabel" text="Song Year" textAlignment="CENTER" wrapText="true" />
+                  <HBox alignment="CENTER" prefHeight="238.0" prefWidth="278.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="buttonAdd" mnemonicParsing="false" text="Add" onAction = "#buttonListener" />
+                        <Button fx:id="buttonDelete" mnemonicParsing="false" text="Delete" onAction = "#buttonListener" />
+                        <Button fx:id="buttonEdit" mnemonicParsing="false" text="Edit" onAction = "#buttonListener" />
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="30.0" />
+               </padding>
+            </VBox>
+         </children>
+      </GridPane>
+   </right>
+   <left>
+      <GridPane prefHeight="400.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <ListView fx:id="songListView" prefHeight="442.0" prefWidth="350.0" />
+         </children>
+      </GridPane>
+   </left>
+</BorderPane>
