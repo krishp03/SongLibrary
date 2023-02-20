@@ -1,11 +1,15 @@
 package org.openjfx;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import java.util.List;
+import java.util.Optional;
 
 
 public class PrimaryController {
@@ -33,30 +37,40 @@ public class PrimaryController {
     @FXML Label artistLabel;
     @FXML Label albumLabel;
     @FXML Label yearLabel;
+    @FXML ListView<Song> songListView;
 
+    private ObservableList<Song> observableList;
+
+    private void init(){
+    observableList = FXCollections.observableArrayList();
+    }
 
     public void buttonListener(ActionEvent e) {
         Button act = (Button) e.getSource();
         if (act==buttonAdd) screenPane.setRight(addPane);
         else if(act==buttonEdit) screenPane.setRight(editPane);
         else if(act==buttonDelete || act==buttonConfirmAdd || act==buttonUpdate) {
-            Dialog<String> dialog = new Dialog<String>();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "");
             if (act==buttonDelete){
-                dialog.setTitle("Delete");
-                dialog.setContentText("Confirm Delete?");
+                alert.setContentText("Confirm Delete?");
             }else if (act==buttonConfirmAdd){
-                dialog.setTitle("Add");
-                dialog.setContentText("Confirm Add?");
+                alert.setContentText("Confirm Add?");
             }else{
-                dialog.setTitle("Update");
-                dialog.setContentText("Confirm Edit?");
+                alert.setContentText("Confirm Edit?");
             }
-            dialog.getDialogPane().getButtonTypes().add(new ButtonType("Yes", ButtonBar.ButtonData.YES));
-            dialog.getDialogPane().getButtonTypes().add(new ButtonType("No", ButtonBar.ButtonData.NO));
-            dialog.showAndWait();
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                screenPane.setRight(mainPane);
+            }
         }
-        else if(act==buttonCancelAdd || act==buttonCancelEdit) screenPane.setRight(mainPane);
+        else if(act==buttonCancelAdd || act==buttonCancelEdit) {
+            if(act==buttonCancelAdd){
+                addSongField.setText("");
+                addArtistField.setText("");
+                addAlbumField.setText("");
+                addYearField.setText("");
+            }
+            screenPane.setRight(mainPane);
+        }
     }
-
-
 }
