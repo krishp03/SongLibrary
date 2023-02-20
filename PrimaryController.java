@@ -51,10 +51,17 @@ public class PrimaryController {
             return x;
         }
     }
-    
+
     private void sort(){
         sorter q = new sorter();
         FXCollections.sort(songListView.getItems(), q);
+    }
+    
+    private void clearAdd(){
+        addSongField.setText("");
+        addArtistField.setText("");
+        addAlbumField.setText("");
+        addYearField.setText("");
     }
 
     public void buttonListener(ActionEvent e) {
@@ -76,17 +83,13 @@ public class PrimaryController {
                     Song s = new Song(addSongField.getText(), addArtistField.getText(), addAlbumField.getText(), Integer.parseInt(addYearField.getText()));
                     songListView.getItems().add(s);
                     sort();
+                    clearAdd();
                 }
                 screenPane.setRight(mainPane);
             }
         }
         else if(act==buttonCancelAdd || act==buttonCancelEdit) {
-            if(act==buttonCancelAdd){
-                addSongField.setText("");
-                addArtistField.setText("");
-                addAlbumField.setText("");
-                addYearField.setText("");
-            }
+            if(act==buttonCancelAdd) clearAdd();
             screenPane.setRight(mainPane);
         }
     }
