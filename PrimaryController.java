@@ -8,6 +8,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,12 +39,22 @@ public class PrimaryController {
     @FXML Label artistLabel;
     @FXML Label albumLabel;
     @FXML Label yearLabel;
-    @FXML ListView<Song> songListView;
+    @FXML ListView<Song> songListView = new ListView<Song>();
 
-    private ObservableList<Song> observableList;
+//    private ObservableList<Song> observableList;
 
-    private void init(){
-    observableList = FXCollections.observableArrayList();
+    private class sorter implements Comparator<Song> {
+        public int compare(Song a, Song b)
+        {
+            int x = a.getName().compareTo(b.getName());
+            if (x==0) return a.getArtist().compareTo(b.getArtist());
+            return x;
+        }
+    }
+    
+    private void sort(){
+        sorter q = new sorter();
+        FXCollections.sort(songListView.getItems(), q);
     }
 
     public void buttonListener(ActionEvent e) {
@@ -60,6 +72,11 @@ public class PrimaryController {
             }
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
+                if(act==buttonConfirmAdd){
+                    Song s = new Song(addSongField.getText(), addArtistField.getText(), addAlbumField.getText(), Integer.parseInt(addYearField.getText()));
+                    songListView.getItems().add(s);
+                    sort();
+                }
                 screenPane.setRight(mainPane);
             }
         }
