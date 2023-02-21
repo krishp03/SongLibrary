@@ -8,6 +8,9 @@ public class Song implements Comparable<Song>{
     private int year;
 
     public Song(String name, String artist, String album, int year){
+        if(name.isBlank() || artist.isBlank()){
+            throw new IllegalArgumentException();
+        }
         this.name = name;
         this.artist = artist;
         this.album = album;
@@ -50,9 +53,9 @@ public class Song implements Comparable<Song>{
     // Compare by name first, and if names are duplicates, compare by artist
     public int compareTo(Song s) {
         if(name.compareTo(s.getName()) != 0){
-            return name.compareTo(s.getName());
+            return name.toLowerCase().compareTo(s.getName().toLowerCase());
         }
-        return artist.compareTo(s.getArtist());
+        return artist.toLowerCase().compareTo(s.getArtist().toLowerCase());
     }
 
     @Override
