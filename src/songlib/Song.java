@@ -75,4 +75,7 @@ public class Song implements Comparable<Song>{
         && s.getArtist().equalsIgnoreCase(artist);
     }
 
+    public String toString() {
+        return name+" | By "+artist;
+    }
 }
