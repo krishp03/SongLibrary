@@ -1,3 +1,7 @@
+/*
+ * Song Library Design & Implementation with GUI
+ * By Krish Patel and Roshan Varadhan
+ */
 package songlib;
 
 import javafx.beans.value.ChangeListener;
@@ -89,12 +93,15 @@ public class PrimaryController implements Initializable{
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 if(act==buttonConfirmAdd){
-                    Song s = new Song(addSongField.getText(), addArtistField.getText(), addAlbumField.getText(), addYearField.getText());
-                    if(!songListView.getItems().contains(s)){
+                    Song s = createSong(addSongField.getText(), addArtistField.getText(), addAlbumField.getText(), addYearField.getText());
+                    if(s != null && !songListView.getItems().contains(s)){
                         songListView.getItems().add(s);
                         Collections.sort(songListView.getItems());
                         songListView.getSelectionModel().select(s);
                         clearAdd();
+                    } else if(s != null){
+                        Alert a = new Alert(Alert.AlertType.ERROR, "This song already exists in the Library");
+                        a.showAndWait();
                     }
                 }
                 else if(act==buttonDelete){
@@ -106,12 +113,15 @@ public class PrimaryController implements Initializable{
                     songListView.getSelectionModel().select(i);
                 }
                 else{
-                    Song s = new Song(editSongField.getText(), editArtistField.getText(), editAlbumField.getText(), editYearField.getText());
-                    if(!songListView.getItems().contains(s)){
+                    Song s = createSong(editSongField.getText(), editArtistField.getText(), editAlbumField.getText(), editYearField.getText());
+                    if(s != null && (!songListView.getItems().contains(s) || songListView.getSelectionModel().getSelectedItem().equals(s))){
                         songListView.getItems().remove(songListView.getSelectionModel().getSelectedItem());
                         songListView.getItems().add(s);
                         Collections.sort(songListView.getItems());
                         songListView.getSelectionModel().select(s);
+                    } else if(s != null){
+                        Alert a = new Alert(Alert.AlertType.ERROR, "This song already exists in the Library");
+                        a.showAndWait();
                     }
                 }
                 showSong();
@@ -124,8 +134,25 @@ public class PrimaryController implements Initializable{
         }
     }
 
+    private Song createSong(String name, String artist, String album, String year) {
+        try{
+            if(name.isBlank() || artist.isBlank()){
+                Alert a = new Alert(Alert.AlertType.ERROR, "A song needs to have at least a name and artist");
+                a.showAndWait();
+                return null;
+            }
+            Song s = new Song(name, artist, album, year);
+            return s;
+        } catch(Exception e){
+            Alert a = new Alert(Alert.AlertType.ERROR, "If you include a year, it must be a positive integer");
+            a.showAndWait();
+            return null;
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        
         songListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>(){
 
             @Override

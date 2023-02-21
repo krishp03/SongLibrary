@@ -1,3 +1,7 @@
+/*
+ * Song Library Design & Implementation with GUI
+ * By Krish Patel and Roshan Varadhan
+ */
 package songlib;
 
 import javafx.application.Application;
@@ -11,7 +15,7 @@ import java.io.IOException;
 /**
  * JavaFX App
  */
-public class Main extends Application {
+public class SongLib extends Application {
 
     private static Scene scene;
 
@@ -29,7 +33,7 @@ public class Main extends Application {
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxml + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(SongLib.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
 

@@ -1,3 +1,7 @@
+/*
+ * Song Library Design & Implementation with GUI
+ * By Krish Patel and Roshan Varadhan
+ */
 package songlib;
 
 public class Song implements Comparable<Song>{
@@ -8,19 +12,21 @@ public class Song implements Comparable<Song>{
     private String year;
 
     public Song(String name, String artist, String album, String year){
-        if(name.isBlank() || artist.isBlank()){
-            throw new IllegalArgumentException();
-        }
         this.name = name.trim();
         this.artist = artist.trim();
-        if(!album.isBlank())
+        if(album != null && !album.isBlank()){
             this.album = album.trim();
-        try {
-            Integer.parseInt(year);
-            if(!year.isBlank())
-                this.year = year.trim();
-        } catch (Exception e) {
-            // TODO: handle exception
+        } else{
+            album = "";
+        }
+        if(year == null || year.isBlank()) {
+            year = "";
+        } else {
+            int yearNum = Integer.parseInt(year);
+            if(yearNum < 0){
+                throw new IllegalArgumentException();
+            }
+            this.year = year.trim();
         }
     }
 

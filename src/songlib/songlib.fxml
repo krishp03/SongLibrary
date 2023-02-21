@@ -147,22 +147,22 @@
          <children>
             <VBox alignment="TOP_CENTER" spacing="10.0">
                <children>
-                  <Label fx:id="titleLabel" text="Song Title" textAlignment="CENTER" textOverrun="LEADING_ELLIPSIS" wrapText="true">
+                  <Label fx:id="titleLabel" text="Song Library" textAlignment="CENTER" textOverrun="LEADING_ELLIPSIS" wrapText="true">
                      <font>
                         <Font size="32.0" />
                      </font>
                   </Label>
-                  <Label fx:id="artistLabel" text="Song Artist" textAlignment="CENTER" wrapText="true">
+                  <Label fx:id="artistLabel" text="By Krish Patel and Roshan Varadhan" textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label fx:id="albumLabel" text="Song Album" textAlignment="CENTER" wrapText="true">
+                  <Label fx:id="albumLabel" text="CS 213" textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="yearLabel" text="Song Year" textAlignment="CENTER" wrapText="true" />
+                  <Label fx:id="yearLabel" text="2023" textAlignment="CENTER" wrapText="true" />
                   <HBox alignment="CENTER" prefHeight="238.0" prefWidth="278.0" spacing="10.0">
                      <children>
                         <Button fx:id="buttonAdd" mnemonicParsing="false" text="Add" onAction = "#buttonListener" />
