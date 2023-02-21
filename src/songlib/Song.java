@@ -5,16 +5,23 @@ public class Song implements Comparable<Song>{
     private String name;
     private String artist;
     private String album;
-    private int year;
+    private String year;
 
-    public Song(String name, String artist, String album, int year){
+    public Song(String name, String artist, String album, String year){
         if(name.isBlank() || artist.isBlank()){
             throw new IllegalArgumentException();
         }
-        this.name = name;
-        this.artist = artist;
-        this.album = album;
-        this.year = year;
+        this.name = name.trim();
+        this.artist = artist.trim();
+        if(!album.isBlank())
+            this.album = album.trim();
+        try {
+            Integer.parseInt(year);
+            if(!year.isBlank())
+                this.year = year.trim();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
     }
 
     public String getName() {
@@ -29,7 +36,7 @@ public class Song implements Comparable<Song>{
         return album;
     }
 
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 
@@ -45,7 +52,7 @@ public class Song implements Comparable<Song>{
         this.album = album;
     }
 
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
