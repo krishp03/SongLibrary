@@ -1,21 +1,21 @@
 package songlib;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 
+import java.net.URL;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 
-public class PrimaryController {
+public class PrimaryController implements Initializable{
 
     @FXML BorderPane screenPane;
     @FXML GridPane addPane;
@@ -122,5 +122,18 @@ public class PrimaryController {
             if(act==buttonCancelAdd) clearAdd();
             screenPane.setRight(mainPane);
         }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        songListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>(){
+
+            @Override
+            public void changed(ObservableValue<? extends Song> arg0, Song arg1, Song arg2) {
+                showSong();               
+            }
+            
+        });
+        
     }
 }
