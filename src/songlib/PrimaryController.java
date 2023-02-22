@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
+import java.io.*;
 import java.net.URL;
 import java.util.Collections;
 import java.util.Optional;
@@ -55,10 +56,10 @@ public class PrimaryController implements Initializable{
 
     private void showSong(){
         if (songListView.getItems().size()==0){
-            titleLabel.setText("");
-            artistLabel.setText("");
-            albumLabel.setText("");
-            yearLabel.setText("");
+            titleLabel.setText("Song Library");
+            artistLabel.setText("By Krish Patel and Roshan Varadhan");
+            albumLabel.setText("CS 213");
+            yearLabel.setText("2023");
             return;
         }
         Song curr = songListView.getSelectionModel().getSelectedItem();
@@ -70,7 +71,7 @@ public class PrimaryController implements Initializable{
         }
     }
 
-    public void buttonListener(ActionEvent e) {
+    public void buttonListener(ActionEvent e) throws IOException {
         Button act = (Button) e.getSource();
         if (act==buttonAdd) screenPane.setRight(addPane);
         else if(act==buttonEdit) {
@@ -94,15 +95,17 @@ public class PrimaryController implements Initializable{
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 if(act==buttonConfirmAdd){
                     Song s = createSong(addSongField.getText(), addArtistField.getText(), addAlbumField.getText(), addYearField.getText());
-                    if(s != null && !songListView.getItems().contains(s)){
-                        songListView.getItems().add(s);
-                        Collections.sort(songListView.getItems());
-                        songListView.getSelectionModel().select(s);
-                        clearAdd();
-                    } else if(s != null){
-                        Alert a = new Alert(Alert.AlertType.ERROR, "This song already exists in the Library");
-                        a.showAndWait();
+                    if(s!=null){
+                        if(!songListView.getItems().contains(s)){
+                            songListView.getItems().add(s);
+                            Collections.sort(songListView.getItems());
+                            songListView.getSelectionModel().select(s);
+                        } else{
+                            Alert a = new Alert(Alert.AlertType.ERROR, "This song already exists in the Library!!");
+                            a.showAndWait();
+                        }
                     }
+                    clearAdd();
                 }
                 else if(act==buttonDelete){
                     int i = songListView.getSelectionModel().getSelectedIndex();
@@ -124,6 +127,7 @@ public class PrimaryController implements Initializable{
                         a.showAndWait();
                     }
                 }
+                persistence();
                 showSong();
                 screenPane.setRight(mainPane);
             }
@@ -134,10 +138,37 @@ public class PrimaryController implements Initializable{
         }
     }
 
+    private void persistence() throws IOException {
+        try{
+            FileWriter f = new FileWriter("songs.txt", false);
+            f.write("");
+            f.close();
+            BufferedWriter b = new BufferedWriter(new FileWriter("songs.txt", true));
+            for (Song s : songListView.getItems()) {
+                b.write(s.getName() + "|" + s.getArtist() + "|" + s.getAlbum() + "|" + s.getYear());
+                b.write("\n");
+            }
+            b.close();
+        } catch (IOException e){
+        }
+
+    }
     private Song createSong(String name, String artist, String album, String year) {
         try{
+            album = (album == null)? "":album;
+            year = (year == null)? "":year;
             if(name.isBlank() || artist.isBlank()){
                 Alert a = new Alert(Alert.AlertType.ERROR, "A song needs to have at least a name and artist");
+                a.showAndWait();
+                return null;
+            }
+            if(name.contains("|") || artist.contains("|")){
+                Alert a = new Alert(Alert.AlertType.ERROR, "No Vertical Bars Allowed!!");
+                a.showAndWait();
+                return null;
+            }
+            if(!album.isBlank() && album.contains("|")){
+                Alert a = new Alert(Alert.AlertType.ERROR, "No Vertical Bars Allowed!!");
                 a.showAndWait();
                 return null;
             }
@@ -152,15 +183,43 @@ public class PrimaryController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+
+        try {
+            BufferedReader songLibrary = new BufferedReader(new FileReader("songs.txt"));
+            String part = songLibrary.readLine();
+            while (part!=null){
+                String fields[]=part.split("\\|");
+                String name=fields[0];
+                String artist=fields[1];
+                String album=fields[2];
+                String year=fields[3];
+                if(album.equals("null")){
+                    album="";
+                }if(year.equals("null")){
+                    year="";
+                }
+                Song s= new Song(name, artist, album, year);
+                songListView.getItems().add(s);
+                part = songLibrary.readLine();
+            }
+            songLibrary.close();
+        } catch (FileNotFoundException e) {
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if(songListView.getItems().size()>0){
+            songListView.getSelectionModel().selectFirst();
+        }
+        showSong();
         songListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>(){
 
             @Override
             public void changed(ObservableValue<? extends Song> arg0, Song arg1, Song arg2) {
-                showSong();               
+                showSong();
             }
-            
+
         });
-        
+
     }
 }
