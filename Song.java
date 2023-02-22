@@ -1,3 +1,7 @@
+/*
+ * Song Library Design & Implementation with GUI
+ * By Krish Patel and Roshan Varadhan
+*/
 package org.openjfx;
 
 public class Song implements Comparable<Song>{
@@ -5,16 +9,25 @@ public class Song implements Comparable<Song>{
     private String name;
     private String artist;
     private String album;
-    private int year;
+    private String year;
 
-    public Song(String name, String artist, String album, int year){
-        if(name.isBlank() || artist.isBlank()){
-            throw new IllegalArgumentException();
+    public Song(String name, String artist, String album, String year){
+        this.name = name.trim();
+        this.artist = artist.trim();
+        if(album != null && !album.isBlank()){
+            this.album = album.trim();
+        } else{
+            album = "";
         }
-        this.name = name;
-        this.artist = artist;
-        this.album = album;
-        this.year = year;
+        if(year == null || year.isBlank()) {
+            year = "";
+        } else {
+            int yearNum = Integer.parseInt(year);
+            if(yearNum < 0){
+                throw new IllegalArgumentException();
+            }
+            this.year = year.trim();
+        }
     }
 
     public String getName() {
@@ -29,7 +42,7 @@ public class Song implements Comparable<Song>{
         return album;
     }
 
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 
@@ -45,7 +58,7 @@ public class Song implements Comparable<Song>{
         this.album = album;
     }
 
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
@@ -75,4 +88,7 @@ public class Song implements Comparable<Song>{
                 && s.getArtist().equalsIgnoreCase(artist);
     }
 
+    public String toString() {
+        return name+" | By "+artist;
+    }
 }
